@@ -17,6 +17,7 @@
 		"test:ui": "vitest --ui",
 		"test:watch": "vitest",
 		"test:cov": "vitest run --coverage",
+		"test:e2e-cov": "vitest run --coverage --config ./vitest.config.e2e.mts",
 		"test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
 		"test:e2e": "vitest run --config ./vitest.config.e2e.mts",
 		"test:e2e-ui": "vitest --ui --config ./vitest.config.e2e.mts"
@@ -30,12 +31,14 @@
 		"@nestjs/platform-express": "^10.0.0",
 		"@prisma/client": "^6.1.0",
 		"bcryptjs": "^2.4.3",
+		"dayjs": "^1.11.13",
 		"passport-jwt": "^4.0.1",
 		"reflect-metadata": "^0.2.0",
 		"rxjs": "^7.8.1",
 		"zod": "^3.24.1"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^9.3.0",
 		"@nestjs/cli": "^10.0.0",
 		"@nestjs/schematics": "^10.0.0",
 		"@nestjs/testing": "^10.0.0",
