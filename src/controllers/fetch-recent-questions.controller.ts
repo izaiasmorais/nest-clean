@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Query, UseGuards, HttpCode } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ZodValidationPipe } from "@/pipes/zod-validation-pipe";
 import { PrismaService } from "@/prisma/prisma.service";
@@ -21,6 +21,7 @@ export class FetchRecentQuestionsController {
 	constructor(private prisma: PrismaService) {}
 
 	@Get()
+	@HttpCode(200)
 	async handle(@Query("page", queryValidatonPipe) page: PageQueryParamSchema) {
 		const perPage = 1;
 

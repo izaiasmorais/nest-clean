@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards, UsePipes } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	HttpCode,
+	Post,
+	UseGuards,
+	UsePipes,
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { CurrentUser } from "@/auth/current-user-decorator";
 import { UserPayload } from "@/auth/jwt.strategy";
@@ -21,6 +28,7 @@ export class CreateQuestionController {
 	constructor(private prisma: PrismaService) {}
 
 	@Post()
+	@HttpCode(201)
 	async handle(
 		@Body(bodyValidationPipe) body: CreateQuestionBodySchema,
 		@CurrentUser() user: UserPayload
