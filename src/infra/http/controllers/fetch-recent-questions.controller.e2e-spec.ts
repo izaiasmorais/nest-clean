@@ -51,16 +51,17 @@ describe("Create question (E2E)", () => {
 
 		expect(response.statusCode).toBe(200);
 
+		console.log(response.body);
+
+
 		expect(response.body).toEqual({
 			questions: [
 				{
 					id: expect.any(String),
 					title: "Question 1",
 					slug: "question-1",
-					content: "Content 1",
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
-					authorId: user.id,
 				},
 			],
 		});
