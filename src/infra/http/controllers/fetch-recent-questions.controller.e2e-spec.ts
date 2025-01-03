@@ -58,7 +58,7 @@ describe("Create question (E2E)", () => {
 					title: "Question 1",
 					slug: "question-1",
 					content: "Content 1",
-					cretedAt: expect.any(String),
+					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 					authorId: user.id,
 				},

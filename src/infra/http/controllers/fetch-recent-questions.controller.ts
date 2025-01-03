@@ -29,7 +29,7 @@ export class FetchRecentQuestionsController {
 			take: 1,
 			skip: (page - 1) * perPage,
 			orderBy: {
-				cretedAt: "desc",
+				createdAt: "desc",
 			},
 		});
 
