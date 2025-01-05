@@ -51,9 +51,6 @@ describe("Create question (E2E)", () => {
 
 		expect(response.statusCode).toBe(200);
 
-		console.log(response.body);
-
-
 		expect(response.body).toEqual({
 			questions: [
 				{
