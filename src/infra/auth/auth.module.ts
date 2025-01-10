@@ -1,6 +1,6 @@
 import { PassportModule } from "@nestjs/passport";
 import { ConfigService } from "@nestjs/config";
-import { JwtStrategy } from "./jwt.strategy";
+import { JwtStrategy } from "./jwt.strategy.guard";
 import { JwtModule } from "@nestjs/jwt";
 import { Module } from "@nestjs/common";
 import { Env } from "@/infra/env";
