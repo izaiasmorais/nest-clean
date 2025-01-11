@@ -1,9 +1,16 @@
-import { Controller, Get, Query, UseGuards, HttpCode } from "@nestjs/common";
+import {
+	Controller,
+	Get,
+	Query,
+	UseGuards,
+	HttpCode,
+	BadRequestException,
+} from "@nestjs/common";
 import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
 import { AuthGuard } from "@nestjs/passport";
-import { z } from "zod";
 import { QuestionPresenter } from "../presenters/question-presenter";
+import { z } from "zod";
 
 const pageQueryParamSchema = z
 	.string()
@@ -29,7 +36,7 @@ export class FetchRecentQuestionsController {
 		});
 
 		if (result.isLeft()) {
-			throw new Error("Unexpected error");
+			throw new BadRequestException();
 		}
 
 		return { questions: result.value.questions.map(QuestionPresenter.toHTTP) };

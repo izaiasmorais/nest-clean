@@ -1,6 +1,15 @@
-import { Body, Controller, HttpCode, Post, UsePipes } from "@nestjs/common";
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	HttpCode,
+	Post,
+	UnauthorizedException,
+	UsePipes,
+} from "@nestjs/common";
 import { AuthenticateStudentUseCase } from "@/domain/forum/application/use-cases/authenticate-student";
 import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
+import { InvalidCredentialsError } from "@/domain/forum/application/use-cases/errors/invalid-credentials-error";
 import { z } from "zod";
 
 const authenticateBodySchema = z.object({
@@ -17,13 +26,22 @@ export class AuthenticateController {
 	@Post()
 	@HttpCode(201)
 	@UsePipes(new ZodValidationPipe(authenticateBodySchema))
-	async handle(@Body() body: AuthenticateBodySchema) {
+	async handle(
+		@Body() body: AuthenticateBodySchema
+	): Promise<{ access_token: string }> {
 		const { email, password } = body;
 
 		const result = await this.authenticateStudent.execute({ email, password });
 
 		if (result.isLeft()) {
-			throw new Error();
+			const error = result.value;
+
+			switch (error.constructor) {
+				case InvalidCredentialsError:
+					throw new UnauthorizedException(error.message);
+				default:
+					throw new BadRequestException();
+			}
 		}
 
 		const { accessToken } = result.value;
