@@ -1,10 +1,12 @@
 import { Question } from "@/domain/forum/enterprise/entities/question";
 import { QuestionsRepository } from "../repositories/questions-repository";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Either, right } from "@/core/either";
+import { Either, left, right } from "@/core/either";
 import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
 import { QuestionAttachmentList } from "@/domain/forum/enterprise/entities/question-attachment-list";
 import { Injectable } from "@nestjs/common";
+import { Slug } from "../../enterprise/entities/value-objects/slug";
+import { QuestionAlreadyExistsError } from "./errors/question-already-exists-error";
 
 interface CreateQuestionUseCaseRequest {
 	authorId: string;
@@ -14,7 +16,7 @@ interface CreateQuestionUseCaseRequest {
 }
 
 type CreateQuestionUseCaseResponse = Either<
-	null,
+	QuestionAlreadyExistsError,
 	{
 		question: Question;
 	}
@@ -30,6 +32,14 @@ export class CreateQuestionUseCase {
 		content,
 		attachmentsIds,
 	}: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
+		const questionAlreadyExists = await this.questionsRepository.findBySlug(
+			Slug.createFromText(title).value
+		);
+
+		if (questionAlreadyExists) {
+			return left(new QuestionAlreadyExistsError(title));
+		}
+
 		const question = Question.create({
 			authorId: new UniqueEntityID(authorId),
 			title,
