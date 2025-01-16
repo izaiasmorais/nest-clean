@@ -37,6 +37,13 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name fetch_recent_question
-GET {{baseUrl}}/questions?page=1
+GET {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name fetch_question_by_slug
+GET {{baseUrl}}/questions/pergunta-1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
