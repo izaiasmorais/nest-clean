@@ -1,17 +1,15 @@
 import { INestApplication } from "@nestjs/common";
-import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 import { AppModule } from "@/infra/app.module";
-import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
 import { DatabaseModule } from "@/infra/database/database.module";
 import { StudentFactory } from "test/factories/make-student";
 import { QuestionFactory } from "test/factories/make-question";
+import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
 
 describe("Get question by slug (E2E)", () => {
 	let app: INestApplication;
-	let prisma: PrismaService;
 	let jwt: JwtService;
 	let studentFactory: StudentFactory;
 	let questionFactory: QuestionFactory;
@@ -24,7 +22,6 @@ describe("Get question by slug (E2E)", () => {
 
 		app = moduleRef.createNestApplication();
 
-		prisma = moduleRef.get(PrismaService);
 		studentFactory = moduleRef.get(StudentFactory);
 		questionFactory = moduleRef.get(QuestionFactory);
 		jwt = moduleRef.get(JwtService);
